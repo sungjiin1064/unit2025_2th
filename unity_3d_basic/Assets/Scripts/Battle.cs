@@ -55,7 +55,27 @@ public class Battle : MonoBehaviour
     public BattleEntity battleEntity;
     public BattleUI battleUI;
 
-    public int CurrentHP;
+    public bool IsPlayer;
+    public int CurrentHP {
+        get {
+            if(currentHP <= 0)
+            {
+                currentHP = 0;
+                Death();
+            }
+            else
+            {
+
+            }
+            return currentHP;
+        }
+        private set {
+            if(value > battleEntity.HP) value = battleEntity.HP;            
+        } 
+    } // Battle 클래스에서 변경할 수 있다.
+
+    
+    private int currentHP;
 
     private void Start()
     {
@@ -75,4 +95,31 @@ public class Battle : MonoBehaviour
         battleUI.SetHPBar(CurrentHP, battleEntity.HP);
     }
 
+    public void TakeDamage(Battle other)
+    {      
+        int FinalDamage = (other.battleEntity.ATK - battleEntity.DEF);
+        if (FinalDamage <= 0) FinalDamage = 1;
+
+        CurrentHP -= FinalDamage;
+        //Debug.Log($"최종데미지 : {FinalDamage}, 공격자의 공격력 : {other}")
+    }
+    public void Death()
+    {
+        Debug.Log($"사망했습니다. 현제 체력 : {currentHP}");
+    }
+    public void Recover(int amount)
+    {
+        if(IsPlayer) return;
+
+        CurrentHP += amount;
+    }
+    public void ShieldUp(int amount)
+    {
+        if (IsPlayer) return;
+
+        battleEntity.DEF += amount;
+        battleUI.SetBattleUI(battleEntity);
+    }
+   
+    
 }
