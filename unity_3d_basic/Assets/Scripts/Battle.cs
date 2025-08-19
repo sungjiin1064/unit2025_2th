@@ -11,6 +11,7 @@ public class BattleEntity
     public int ATK;
     public int DEF;
     public string AttackType;
+    public string NAME;
 
     public BattleEntity() { }
     public BattleEntity(int hp, int atk)
@@ -32,14 +33,20 @@ public class BattleUI
 {
     public Image HpBar;
     public TextMeshProUGUI BattleEntityText;
+    public TextMeshProUGUI BattleNameText;
+    public TextMeshProUGUI HpText;
 
     public void SetBattleUI(BattleEntity battleEntity)
     {
         BattleEntityText.SetText($"ATK : {battleEntity.ATK} / DEF : {battleEntity.DEF}");
+        BattleNameText.SetText($"{battleEntity.NAME}");
     }
     public void SetHPBar(int current, int max)
     {
         HpBar.fillAmount = (float)current / max;
+
+        float percent = ((float)current / max) * 100;
+        HpText.SetText($"{current} / {max} ({percent:F0}%)");
     }
 }
 
@@ -59,6 +66,12 @@ public class Battle : MonoBehaviour
     }
     private void Update()
     {
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    CurrentHP -= 15;
+        //    CurrentHP = Mathf.Clamp(CurrentHP, 0, battleEntity.HP);
+        //}
+
         battleUI.SetHPBar(CurrentHP, battleEntity.HP);
     }
 
