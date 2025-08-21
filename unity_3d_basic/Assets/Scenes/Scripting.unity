@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -586,6 +586,7 @@ MonoBehaviour:
     BattleEntityText: {fileID: 878146540}
     BattleNameText: {fileID: 614301678}
     HpText: {fileID: 263487235}
+  battleManager: {fileID: 586304832}
   IsPlayer: 1
 --- !u!4 &345958345
 Transform:
@@ -794,6 +795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8486047cbfa00a141a4df9a59eb09b70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTurn: 1
 --- !u!1 &614301676
 GameObject:
   m_ObjectHideFlags: 0
@@ -1968,6 +1970,7 @@ MonoBehaviour:
     BattleEntityText: {fileID: 1393064537}
     BattleNameText: {fileID: 2066221418}
     HpText: {fileID: 771568012}
+  battleManager: {fileID: 586304832}
   IsPlayer: 0
 --- !u!4 &1323088184
 Transform:

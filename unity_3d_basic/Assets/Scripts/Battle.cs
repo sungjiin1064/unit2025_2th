@@ -19,7 +19,7 @@ public class BattleEntity
         HP = hp;
         ATK = atk;
     }
-
+    [SerializeField]
     public BattleEntity(int hp, int atk, int def)
     {
         HP = hp;
@@ -54,6 +54,7 @@ public class Battle : MonoBehaviour
 {
     public BattleEntity battleEntity;
     public BattleUI battleUI;
+    public BattleManager battleManager;
 
     public bool IsPlayer;
     public int CurrentHP {
@@ -70,11 +71,11 @@ public class Battle : MonoBehaviour
             return currentHP;
         }
         private set {
-            if(value > battleEntity.HP) value = battleEntity.HP;            
+            if(value > battleEntity.HP) value = battleEntity.HP;
+            currentHP = value;
         } 
     } // Battle 클래스에서 변경할 수 있다.
-
-    
+        
     private int currentHP;
 
     private void Start()
@@ -101,24 +102,30 @@ public class Battle : MonoBehaviour
         if (FinalDamage <= 0) FinalDamage = 1;
 
         CurrentHP -= FinalDamage;
-        //Debug.Log($"최종데미지 : {FinalDamage}, 공격자의 공격력 : {other}")
+        Debug.Log($"최종데미지 : {FinalDamage}, 공격자의 공격력 : {other.battleEntity.ATK}, 방어력 : {battleEntity.DEF}");
     }
     public void Death()
     {
         Debug.Log($"사망했습니다. 현제 체력 : {currentHP}");
     }
+    public void Attack()
+    {
+
+    }
     public void Recover(int amount)
     {
-        if(IsPlayer) return;
+        if(IsPlayer && !battleManager.playerTurn) return;
 
         CurrentHP += amount;
+        //battleManager.TurnChange();
     }
     public void ShieldUp(int amount)
     {
-        if (IsPlayer) return;
+        if (IsPlayer && !battleManager.playerTurn) return;
 
         battleEntity.DEF += amount;
         battleUI.SetBattleUI(battleEntity);
+        //battleManager.TurnChange();
     }
    
     
