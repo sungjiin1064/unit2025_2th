@@ -50,13 +50,12 @@ public class BattleUI
     }
 }
 
-public class Battle : MonoBehaviour
+public abstract class Battle : MonoBehaviour // 추상 클래스. 인스턴스 할 수 없다(오브젝트의 컴포넌트로 사용 할 수 없다).
 {
     public BattleEntity battleEntity;
     public BattleUI battleUI;
     public BattleManager battleManager;
-
-    public bool IsPlayer;
+        
     public int CurrentHP {
         get {
             if(currentHP <= 0)
@@ -102,31 +101,22 @@ public class Battle : MonoBehaviour
         if (FinalDamage <= 0) FinalDamage = 1;
 
         CurrentHP -= FinalDamage;
-        Debug.Log($"최종데미지 : {FinalDamage}, 공격자의 공격력 : {other.battleEntity.ATK}, 방어력 : {battleEntity.DEF}");
+        //Debug.Log($"최종데미지 : {FinalDamage}, 공격자의 공격력 : {other.battleEntity.ATK}, 방어력 : {battleEntity.DEF}");
     }
     public void Death()
     {
         Debug.Log($"사망했습니다. 현제 체력 : {currentHP}");
     }
-    public void Attack()
-    {
-
-    }
-    public void Recover(int amount)
-    {
-        if(IsPlayer && !battleManager.playerTurn) return;
-
-        CurrentHP += amount;
-        //battleManager.TurnChange();
-    }
-    public void ShieldUp(int amount)
-    {
-        if (IsPlayer && !battleManager.playerTurn) return;
-
-        battleEntity.DEF += amount;
-        battleUI.SetBattleUI(battleEntity);
-        //battleManager.TurnChange();
-    }
+    public abstract void Attack(Battle other);
    
+    public virtual void Recover(int amount)
+    {     
+        CurrentHP += amount;        
+    }
+    public virtual void ShieldUp(int amount)
+    {      
+        battleEntity.DEF += amount;
+        battleUI.SetBattleUI(battleEntity);        
+    }   
     
 }

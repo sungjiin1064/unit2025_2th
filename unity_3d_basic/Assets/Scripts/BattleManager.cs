@@ -21,21 +21,23 @@ public class BattleManager : MonoBehaviour
         playerTurn = true;
     }
 
+    public Battle player;
     public Battle Enemy;
     public void EnemyAI()
     {
         int RandomValue = UnityEngine.Random.Range(0, 3);
+        //Debug.Log($"랜덤 값의 정확성 확인 {RandomValue}");
 
         switch (RandomValue)
         {
             case 0:
-                Debug.Log("Enemy Attack!");
+                Enemy.Attack(player);
                 break;
             case 1:
-                Enemy.Recover(10);
+                Enemy.Recover(5);
                 break;
             case 2:
-                Enemy.ShieldUp(5);
+                Enemy.ShieldUp(1);
                 break;
             default:
                 break;
