@@ -55,27 +55,24 @@ public abstract class Battle : MonoBehaviour // 추상 클래스. 인스턴스 할 수 없다
     public BattleEntity battleEntity;
     public BattleUI battleUI;
     public BattleManager battleManager;
-        
-    public int CurrentHP {
-        get {
-            if(currentHP <= 0)
+
+    private int currentHP;
+    public int CurrentHP
+    {
+        get { return currentHP; }
+        private set
+        {
+            int clamped = Mathf.Clamp(value, 0, battleEntity.HP);
+            if (clamped == currentHP) return;   // 변화 없으면 아무것도 안 함
+            currentHP = clamped;
+
+            // HP가 0이 되는 순간 즉시 Death()
+            if (currentHP <= 0)
             {
-                currentHP = 0;
                 Death();
             }
-            else
-            {
-
-            }
-            return currentHP;
         }
-        private set {
-            if(value > battleEntity.HP) value = battleEntity.HP;
-            currentHP = value;
-        } 
-    } // Battle 클래스에서 변경할 수 있다.
-        
-    private int currentHP;
+    }
 
     private void Start()
     {
@@ -96,16 +93,19 @@ public abstract class Battle : MonoBehaviour // 추상 클래스. 인스턴스 할 수 없다
     }
 
     public void TakeDamage(Battle other)
-    {      
+    {
         int FinalDamage = (other.battleEntity.ATK - battleEntity.DEF);
         if (FinalDamage <= 0) FinalDamage = 1;
 
-        CurrentHP -= FinalDamage;
-        //Debug.Log($"최종데미지 : {FinalDamage}, 공격자의 공격력 : {other.battleEntity.ATK}, 방어력 : {battleEntity.DEF}");
+        CurrentHP -= FinalDamage;       
+
+        BattleManager.Print($"{other.battleEntity.NAME}의 공격 성공! {FinalDamage} 피해를 입혔고, ATK가 {other.battleEntity.ATK}이 되었습니다.");
     }
+
     public void Death()
     {
         Debug.Log($"사망했습니다. 현제 체력 : {currentHP}");
+        battleManager.GameOver(this);
     }
     public abstract void Attack(Battle other);
    
@@ -117,6 +117,24 @@ public abstract class Battle : MonoBehaviour // 추상 클래스. 인스턴스 할 수 없다
     {      
         battleEntity.DEF += amount;
         battleUI.SetBattleUI(battleEntity);        
-    }   
-    
+    }
+    public int CalcDamageFrom(Battle attacker)
+    {
+        int dmg = attacker.battleEntity.ATK - battleEntity.DEF;
+        if (dmg <= 0) dmg = 1;
+        return dmg;
+    }
+    public void ApplyDamage(int amount)
+    {
+        CurrentHP -= amount;
+    }
+
+    public void ApplyGuardEffect() // 가드 : 데미지 무효 + DEF+1 + HP+10
+    {
+        ShieldUp(1);    // DEF +1 및 UI 갱신 포함(기존 메서드)
+        Recover(10);    // HP +10 (기존 메서드)
+    }
+
+
+
 }

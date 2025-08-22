@@ -13,28 +13,14 @@ public class Player : Battle
 {
     public override void Attack(Battle other)
     {
-        if (!battleManager.playerTurn) return;
-
-        other.TakeDamage(this);
-
-        battleManager.TurnChange();
+        other.TakeDamage(this); // (직접 호출은 안 쓰게 될 수도 있지만 호환성 유지)
     }
-
     public override void Recover(int amount)
     {
-        if (!battleManager.playerTurn) return;
-
         base.Recover(amount);
-
-        battleManager.TurnChange();
     }
-
     public override void ShieldUp(int amount)
     {
-        if (!battleManager.playerTurn) return;
-
         base.ShieldUp(amount);
-
-        battleManager.TurnChange();
     }
 }
