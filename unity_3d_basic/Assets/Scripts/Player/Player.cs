@@ -11,9 +11,12 @@ using UnityEngine.UI;
 
 public class Player : Battle
 {
+    [SerializeField] Animator animator;
+
     public override void Attack(Battle other)
     {
-        other.TakeDamage(this); // (직접 호출은 안 쓰게 될 수도 있지만 호환성 유지)
+        animator.SetTrigger("Attack");
+        //other.TakeDamage(this); // (직접 호출은 안 쓰게 될 수도 있지만 호환성 유지)
     }
     public override void Recover(int amount)
     {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// 전역 enum
 public enum BattleAction
 {
     None,
@@ -21,26 +20,24 @@ public class BattleManager : MonoBehaviour
 
     private BattleAction playerChoice = BattleAction.None;
     private BattleAction enemyChoice = BattleAction.None;
-
-    // 버튼 연결
+        
     public void OnPlayerAction_Attack() => OnPlayerAction(BattleAction.Attack);
     public void OnPlayerAction_Guard() => OnPlayerAction(BattleAction.Guard);
     public void OnPlayerAction_GuardBreaker() => OnPlayerAction(BattleAction.GuardBreaker);
 
     public void OnPlayerAction(BattleAction choice)
     {
-        if (playerChoice != BattleAction.None) return; // 중복 입력 방지
+        if (gameOver) return;
+        if (playerChoice != BattleAction.None) return; 
         playerChoice = choice;
-
-        // 적 랜덤 선택
+                
         enemyChoice = (BattleAction)UnityEngine.Random.Range(1, 4);
 
         turnCounter++;
         Print($"==== {turnCounter} 턴 시작 ====");
 
         ResolveRound();
-
-        // 다음 라운드 준비
+                
         playerChoice = BattleAction.None;
         enemyChoice = BattleAction.None;
     }
@@ -57,7 +54,7 @@ public class BattleManager : MonoBehaviour
     {
         Print($"플레이어: {ActionKor(playerChoice)}, 몬스터: {ActionKor(enemyChoice)}");
 
-        // 1) 동일 선택
+        
         if (playerChoice == enemyChoice)
         {
             if (playerChoice == BattleAction.Attack)
@@ -67,11 +64,14 @@ public class BattleManager : MonoBehaviour
 
                 Enemy.ApplyDamage(dmgToEnemy);
                 player.ApplyDamage(dmgToPlayer);
+                //player.Attack(Enemy);
 
                 player.battleEntity.ATK += 1;
                 Enemy.battleEntity.ATK += 1;
                 player.battleUI.SetBattleUI(player.battleEntity);
                 Enemy.battleUI.SetBattleUI(Enemy.battleEntity);
+
+                
 
                 Print($"둘 다 공격! 플레이어 {dmgToEnemy} 피해 주고, {dmgToPlayer} 피해 받음!");
             }
@@ -82,8 +82,7 @@ public class BattleManager : MonoBehaviour
                 Print($"둘 다 {ActionKor(playerChoice)}! HP가 10씩 감소!");
             }
         }
-
-        // 2) 서로 다른 선택
+                
         else if (playerChoice == BattleAction.Attack && enemyChoice == BattleAction.Guard)
         {
             Enemy.ApplyGuardEffect();
@@ -126,8 +125,7 @@ public class BattleManager : MonoBehaviour
 
             Print($"몬스터 공격 ! 플레이어 {dmg} 피해! (ATK {Enemy.battleEntity.ATK})");
         }
-
-        // ✅ 전투 처리 끝난 후 항상 게임오버 체크
+                
         CheckGameOver();
     }
 
@@ -147,8 +145,7 @@ public class BattleManager : MonoBehaviour
 
         string winner = (loser == player) ? "몬스터" : "플레이어";
         Print($"게임 종료!");
-
-        // 👉 게임 멈추기
+                
         Time.timeScale = 0;
     }
 
