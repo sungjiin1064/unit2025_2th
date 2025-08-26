@@ -25,9 +25,5 @@ public class Ready : MonoBehaviour
         yield return new WaitForSeconds(intervalTime);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
 }
