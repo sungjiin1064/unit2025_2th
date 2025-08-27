@@ -1,23 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterMove : MonoBehaviour
 {
-    private Rigidbody2D rigidbody2D;
-    [SerializeField] float moveSpeed = 3f;
+    [SerializeField] private Rigidbody2D _rigidbody2D;
+    [SerializeField] public float moveSpeed = 5f;
+    private Vector2 targetVector;
 
-    private void Awake()
+    private void Start()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        _rigidbody2D = GetComponent<Rigidbody2D>();
 
-        Vector2 direction = (Vector2.zero - rigidbody2D.position).normalized;
+        targetVector = SetPositionToCenter();
+
+        _rigidbody2D.velocity = targetVector.normalized * moveSpeed;
     }
-    private void FixedUpdate()
+
+    private Vector2 SetPositionToCenter()
     {
-        Vector2 direction = (Vector2.zero - rigidbody2D.position).normalized;
-
-        rigidbody2D.velocity = direction * moveSpeed;
-
+        return Vector2.zero - (Vector2)transform.position;
     }
+
 }

@@ -2,20 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : Battle
+namespace BattleExample
 {
-    public override void Attack(Battle other)
+    public class Monster : Battle
     {
-        other.TakeDamage(this);
-        Debug.Log("Monster Attack!");
-    }
-    public override void Recover(int amount)
-    {
-        base.Recover(amount);
-    }
-    public override void ShieldUp(int amount)
-    {
-        base.ShieldUp(amount);
+        public override void Attack(Battle other)
+        {
+            other.TakeDamage(this);
+            Debug.Log("Monster Attack!");
+        }
+        public override void Recover(int amount)
+        {
+            base.Recover(amount);
+        }
+        public override void ShieldUp(int amount)
+        {
+            base.ShieldUp(amount);
+        }
     }
 }
+
+
 
