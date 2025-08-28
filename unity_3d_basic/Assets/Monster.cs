@@ -28,7 +28,7 @@ namespace Example
             Rigidbody2D rigid2D = instance.AddComponent<Rigidbody2D>();
             rigid2D.gravityScale = 0;
             CapsuleCollider2D cc2d = instance.AddComponent<CapsuleCollider2D>();
-            cc2d.offset = new Vector2(10, 10);
+            cc2d.offset = new Vector2(1, 0);
             cc2d.size = new Vector2(2.24f, 2.27f);
 
             instance.name = monsterInfo.monsterName;

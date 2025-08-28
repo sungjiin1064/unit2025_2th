@@ -15,4 +15,4 @@ MonoBehaviour:
   moveSpeed: 5
   sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   Size: 1
-  monsterName: 
+  monsterName: "\uC6D0"
