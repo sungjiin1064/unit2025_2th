@@ -10,9 +10,11 @@ public class MonsterSpawner : MonoBehaviour
     [Header("몬스터 생성 정보")]
     [SerializeField] Transform[] spawnPositions;
     [SerializeField] GameObject[] spawnMonsters;
+    [SerializeField] MonsterInfo[] monsterInfos;
     [SerializeField] int spawnCount = 5;
     [SerializeField] float spawnIntervalTime = 0.75f;
     private Coroutine spawnCoroutine;
+    private Monster monster = new Monster();
 
     void Start()
     {
@@ -25,6 +27,21 @@ public class MonsterSpawner : MonoBehaviour
         {
             Spawn();
         }
+
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            monster = ConstructMonster();
+            monster.MonsterConstructor();
+        }
+    }
+
+    // monster의 데이터를 생성해주는 함수
+    public Monster ConstructMonster()
+    {
+        Monster newMonster = new Monster();
+        int rd = UnityEngine.Random.Range(0,monsterInfos.Length);
+        newMonster.monsterInfo = monsterInfos[rd];
+        return newMonster;
     }
 
     public void Spawn()
