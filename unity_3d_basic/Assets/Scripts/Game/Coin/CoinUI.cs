@@ -22,11 +22,19 @@ public class CoinUI : MonoBehaviour
     private void Start()
     {
         currentCoin = 0;
-        Bus<IGetCoinEvent>.Raise(new IGetCoinEvent(0)); 
+        Bus<IGetCoinEvent>.Raise(new IGetCoinEvent()); 
     }
     private void HandleGetCoin(IGetCoinEvent evt)
     {
-        currentCoin += evt.Value;
+        if(evt.Coin == null)
+        {
+            Debug.LogWarning("Coin 정보가 없습니다.",this);
+
+        }
+        else
+        {
+            currentCoin += evt.Coin.Value;
+        }
         coinText.SetText($"Current Coin : {currentCoin}");
     }
 }

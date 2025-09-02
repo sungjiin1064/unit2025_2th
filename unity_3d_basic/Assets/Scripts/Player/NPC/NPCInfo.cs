@@ -12,4 +12,5 @@ public class NPCInfo : ScriptableObject
     public float patrolDistance = 5f;
     public Sprite Sprite;
     public string NpcName;
+    public string NpcDialogue;
 }

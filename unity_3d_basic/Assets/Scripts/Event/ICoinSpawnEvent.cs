@@ -2,18 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IGetCoinEvent : IEvent
+public class ICoinSpawnEvent : IEvent
 {
     public Coin Coin;
 
-    public IGetCoinEvent(Coin coin)
+    public ICoinSpawnEvent(Coin coin)
     {
         Coin = coin;
     }
-    public IGetCoinEvent()
-    {
-       
-    }
-
-
 }

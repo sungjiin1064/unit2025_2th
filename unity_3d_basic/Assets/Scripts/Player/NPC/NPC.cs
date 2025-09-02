@@ -3,9 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CollisionEvent
+{
+    Friendly, UnFriendly, UnDefined
+}
+
 public class NPC : MonoBehaviour
 {
-    [SerializeField] NPCInfo nPCInfo;
+    [SerializeField] public NPCInfo nPCInfo;
+    [SerializeField] CollisionEvent collisionEvent = CollisionEvent.UnDefined;
 
     SpriteRenderer spriteRenderer;
     Rigidbody2D _rigidbody2D;
@@ -120,6 +126,30 @@ public class NPC : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, nPCInfo.patrolDistance);
+    }
+    
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            if(collisionEvent == CollisionEvent.Friendly)
+            {
+                Bus<ICollisionWithPlayerEvent>.Raise(new ICollisionWithPlayerEvent(this));
+                gameObject.SetActive(false);
+            }
+            else if(collisionEvent == CollisionEvent.UnFriendly)
+            {
+                
+            }
+            else
+            {
+                
+            }
+
+            
+            
+          
+        }
     }
 
 }
