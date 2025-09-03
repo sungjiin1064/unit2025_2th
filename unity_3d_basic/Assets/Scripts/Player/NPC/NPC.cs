@@ -42,7 +42,7 @@ public class NPC : MonoBehaviour
     }
     private void Update()
     {
-        if(IsPatrol())
+        if (IsPatrol())
             Patrol();
         else
             Chase();
@@ -51,8 +51,8 @@ public class NPC : MonoBehaviour
     bool IsPatrol()
     {
         playerPos = GameObject.FindGameObjectWithTag("Player").transform;
-        if(Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) < nPCInfo.patrolDistance)
-            return false;        
+        if (Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) < nPCInfo.patrolDistance)
+            return false;
         else
             return true;
     }
@@ -67,7 +67,7 @@ public class NPC : MonoBehaviour
 
     public void Chase()
     {
-        
+
         SetPosition(playerPos.position);
         MoveTargetPoint();
     }
@@ -83,7 +83,7 @@ public class NPC : MonoBehaviour
 
             //if(isMoving)
             //    StartCoroutine(SetRandomPositionCoroutine()); //Invoke(nameof(SetRandomPosition), 1f); // À§¶û µ¿ÀÏ
-            if(IsPatrol())
+            if (IsPatrol())
                 SetRandomPosition();
 
 
@@ -113,7 +113,7 @@ public class NPC : MonoBehaviour
         isMoving = false;
         yield return new WaitForSeconds(1f);
         SetRandomPosition();
-               
+
     }
 
     private void OnDrawGizmos()
@@ -126,33 +126,35 @@ public class NPC : MonoBehaviour
         //DrawChaseCircle();
     }
 
-    private void  DrawChaseCircle()
+    private void DrawChaseCircle()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, nPCInfo.patrolDistance);
     }
-    
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            if(collisionEvent == CollisionEvent.Friendly)
+            if (collisionEvent == CollisionEvent.Friendly)
             {
                 Bus<ICollisionWithPlayerEvent>.Raise(new ICollisionWithPlayerEvent(this));
                 gameObject.SetActive(false);
             }
-            else if(collisionEvent == CollisionEvent.UnFriendly)
+            else if (collisionEvent == CollisionEvent.UnFriendly)
             {
-                
+
             }
             else
             {
-                
+
             }
 
-            
-            
-          
+            Bus<IScoreUpdateEvent>.Raise(new IScoreUpdateEvent(10));
+            //ScoreManager.Instance.Score += 10;
+
+
+
         }
     }
 

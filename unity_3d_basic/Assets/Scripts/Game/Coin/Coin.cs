@@ -15,7 +15,7 @@ public class Coin : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Bus<IGetCoinEvent>.Raise(new IGetCoinEvent());  
+            Bus<IGetCoinEvent>.Raise(new IGetCoinEvent(this));  
             gameObject.SetActive(false);
             //Destroy(this.gameObject);  // this 생략가능
         }
