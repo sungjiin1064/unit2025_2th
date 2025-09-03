@@ -23,12 +23,12 @@ public class MonsterSpawner : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             Spawn();
         }
 
-        if(Input.GetKeyDown(KeyCode.F))
+        if(Input.GetKeyDown(KeyCode.C))
         {
             monster = ConstructMonster();
             monster.MonsterConstructor();

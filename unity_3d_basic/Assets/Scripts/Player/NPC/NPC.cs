@@ -26,6 +26,8 @@ public class NPC : MonoBehaviour
 
     private void Awake()
     {
+        startPosition = transform.position;
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         boxCollider2D = GetComponent<BoxCollider2D>();
@@ -94,9 +96,11 @@ public class NPC : MonoBehaviour
 
     }
 
+    private Vector2 startPosition;
     private void SetRandomPosition()
     {
-        currentTargetPos = (Vector2)transform.position + UnityEngine.Random.insideUnitCircle * nPCInfo.PatrolRadius;
+        //currentTargetPos = (Vector2)transform.position + UnityEngine.Random.insideUnitCircle * nPCInfo.PatrolRadius;
+        currentTargetPos = startPosition + UnityEngine.Random.insideUnitCircle * nPCInfo.PatrolRadius;
     }
 
     public void SetPosition(Vector2 position)

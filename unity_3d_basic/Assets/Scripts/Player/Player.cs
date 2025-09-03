@@ -26,4 +26,5 @@ public class Player : Battle
     {
         base.ShieldUp(amount);
     }
+    
 }
