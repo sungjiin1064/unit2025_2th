@@ -13,19 +13,45 @@ public class GameEventUI : MonoBehaviour
     public TextMeshProUGUI NpcName;
     public TextMeshProUGUI NpcDialouge;
 
-    private void OnEnable()
-    {
-        Bus<ICollisionWithPlayerEvent>.OnEvent += HandleNPCUI;
-    }
-    private void OnDisable()
-    {
-        Bus<ICollisionWithPlayerEvent>.OnEvent -= HandleNPCUI;
-    }
+    [Header("GameOver UI")]
+    public GameObject GameOverPanel;
+
+    [Header("GameClear UI")]
+    public GameObject GameClearPanel;
 
     private void Start()
     {
         NPCPanel.SetActive(false);
+        GameOverPanel.SetActive(false);
+        GameClearPanel.SetActive(false);
     }
+
+    private void OnEnable()
+    {
+        Bus<ICollisionWithPlayerEvent>.OnEvent += HandleNPCUI;
+        Bus<IGameOverEvent>.OnEvent += HandleGameOver;
+        Bus<IGameClearEvent>.OnEvent += HandleGameClear;
+    }
+    private void OnDisable()
+    {
+        Bus<ICollisionWithPlayerEvent>.OnEvent -= HandleNPCUI;
+        Bus<IGameOverEvent>.OnEvent -= HandleGameOver;
+        Bus<IGameClearEvent>.OnEvent -= HandleGameClear;
+    }
+
+    private void HandleGameClear(IGameClearEvent evt)
+    {
+        GameClearPanel.SetActive(true);
+    }
+
+    private void HandleGameOver(IGameOverEvent evt)
+    {
+        Time.timeScale = 0f;  // 사용 후 원상태로 돌려줘야한다.(GameOverUI에 ReStart를 1로만들어준다)
+
+        GameOverPanel.SetActive(true);
+    }
+
+
 
     private void HandleNPCUI(ICollisionWithPlayerEvent evt)
     {
