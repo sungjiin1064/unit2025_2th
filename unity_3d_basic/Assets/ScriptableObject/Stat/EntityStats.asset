@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EntityStats
   m_EditorClassIdentifier: 
   maxHealth:
-    baseValue: 10
+    baseValue: 100
     modifiers: []
   Strength:
     baseValue: 10
